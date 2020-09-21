@@ -2,7 +2,7 @@ extern crate calclator;
 use calclator::calclator::ast;
 
 fn main() {
-    let a = ast::Constant::new(33);
+    let a = ast::constant::Constant::new(22);
 
-    println!("Constant={}", a.get());
+    println!("Constant={}", a.eval());
 }
