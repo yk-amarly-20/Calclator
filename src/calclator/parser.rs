@@ -1,6 +1,7 @@
 // parser
 pub mod constant_parser;
 pub mod expression_parser;
+pub mod factor_parser;
 
 #[test]
 fn digit_test() {
@@ -23,5 +24,32 @@ fn test_constant_parser() {
     let (_, parsed) = constant_parser(sent).unwrap();
     let expect = Constant::new(80);
 
+    assert_eq!(parsed, expect);
+}
+
+#[test]
+fn test_expression_parser_with_paren() {
+    use expression_parser::expression_parser_with_paren;
+    use crate::calclator::ast::expression::Expression;
+    use crate::calclator::ast::constant::Constant;
+
+    let sent = "(80)";
+    let (_, parsed) = expression_parser_with_paren(sent).unwrap();
+    let expect = Expression::Constant(Constant::new(80));
+    assert_eq!(parsed, expect);
+}
+
+#[test]
+fn test_factor_parser() {
+    use factor_parser::factor_parser;
+    use crate::calclator::ast::expression::Expression;
+    use crate::calclator::ast::constant::Constant;
+
+    let (_, parsed) = factor_parser("7").unwrap();
+    let expect = Expression::Constant(Constant::new(7));
+    assert_eq!(parsed, expect);
+
+    let (_, parsed) = factor_parser("(8)").unwrap();
+    let expect = Expression::Constant(Constant::new(8));
     assert_eq!(parsed, expect);
 }
