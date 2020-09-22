@@ -1,5 +1,4 @@
 use super::expression::Expression;
-use super::constant;
 
 /// operation
 #[derive(Debug, PartialEq)]
@@ -37,6 +36,7 @@ impl BinaryOperation {
 
 #[test]
 fn operation_test() {
+    use super::constant;
     let binary_operation = BinaryOperation::new(
         Operation::_Times,
         Expression::Constant(constant::Constant::new(15)),
