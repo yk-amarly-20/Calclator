@@ -1,4 +1,5 @@
 /// constant
+#[derive(Debug, PartialEq)]
 pub struct Constant(i32);
 
 impl Constant {
