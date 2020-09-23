@@ -2,6 +2,7 @@
 pub mod constant_parser;
 pub mod expression_parser;
 pub mod factor_parser;
+pub mod term_parser;
 
 #[test]
 fn digit_test() {
@@ -52,4 +53,32 @@ fn test_factor_parser() {
     let (_, parsed) = factor_parser("(8)").unwrap();
     let expect = Expression::Constant(Constant::new(8));
     assert_eq!(parsed, expect);
+}
+
+#[test]
+fn test_term_parser() {
+    use term_parser::term_parser;
+    use crate::calclator::ast::expression::Expression;
+    use crate::calclator::ast::constant::Constant;
+    use crate::calclator::ast::operation::{BinaryOperation, Operation};
+
+    let (_, parsed) = term_parser("4/2*3").unwrap();
+    let tmp = Expression::BinaryOperation(
+        Box::new(BinaryOperation::new(
+            Operation::_Times,
+            Expression::Constant(Constant::new(2)),
+            Expression::Constant(Constant::new(3))
+            )
+        )
+    );
+
+    let expected = Expression::BinaryOperation(
+        Box::new(BinaryOperation::new(
+            Operation::_Divided,
+            Expression::Constant(Constant::new(4)),
+            tmp
+        ))
+    );
+
+    assert_eq!(parsed, expected);
 }
