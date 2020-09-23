@@ -82,3 +82,34 @@ fn test_term_parser() {
 
     assert_eq!(parsed, expected);
 }
+
+#[test]
+fn test_experssion_parser() {
+    use expression_parser::expression_parser;
+    use crate::calclator::ast::expression::Expression;
+    use crate::calclator::ast::operation::{BinaryOperation, Operation};
+    use crate::calclator::ast::constant::Constant;
+
+    let (_, parsed) = expression_parser("1+2-5").unwrap();
+    let tmp = Expression::BinaryOperation(
+        Box::new(
+            BinaryOperation::new(
+                Operation::_Minus,
+                Expression::Constant(Constant::new(2)),
+                Expression::Constant(Constant::new(5))
+            )
+        )
+    );
+
+    let expected = Expression::BinaryOperation(
+        Box::new(
+            BinaryOperation::new(
+                Operation::_Plus,
+                Expression::Constant(Constant::new(1)),
+                tmp
+            )
+        )
+    );
+
+    assert_eq!(parsed, expected);
+}
